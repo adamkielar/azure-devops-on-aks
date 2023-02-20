@@ -1,0 +1,23 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+pool: DevOpsOnAks
+
+trigger:
+  batch: true
+
+stages:
+  - stage: buildImage
+    displayName: Build Application Image
+    jobs:
+      - job: build
+        steps:
+          - checkout: self
+            clean: true
+
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'VS - Adam Kielar(9fdd0ea8-3dd6-481e-8af1-d9f21e15cdd2)'
+              scriptType: 'pscore'
+              scriptLocation: inlineScript
+              inlineScript: |
+                az acr build -f /devops-runner/_work/devops-runner/devops-runner/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .

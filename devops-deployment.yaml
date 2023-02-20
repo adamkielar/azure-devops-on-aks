@@ -1,0 +1,35 @@
+# devops-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-deployment
+  namespace: devops
+  labels:
+    app: devops-runner
+    azure.workload.identity/use: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-runner
+      azure.workload.identity/use: "true"
+  template:
+    metadata:
+      labels:
+        app: devops-runner
+        azure.workload.identity/use: "true"
+    spec:
+      containers:
+      - name: devops-runner
+        image: devopsacr14044.azurecr.io/devops-runner:v1.0.0 # Add your ACR respository
+        command:
+        - sleep
+        args:
+        - 99d
+        volumeMounts:
+          - mountPath: "/home/devops"
+            name: runner-data
+      volumes:
+        - name: runner-data
+          persistentVolumeClaim:
+            claimName: devops-pvc

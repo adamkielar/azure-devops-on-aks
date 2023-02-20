@@ -16,7 +16,7 @@ stages:
 
           - task: AzureCLI@2
             inputs:
-              azureSubscription: 'VS - Adam Kielar(9fdd0ea8-3dd6-481e-8af1-d9f21e15cdd2)'
+              azureSubscription: 'DevopsAKS'
               scriptType: 'pscore'
               scriptLocation: inlineScript
               inlineScript: |

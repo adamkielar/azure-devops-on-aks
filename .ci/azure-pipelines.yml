@@ -23,4 +23,4 @@ stages:
               scriptType: 'pscore'
               scriptLocation: inlineScript
               inlineScript: |
-                az acr build -f /devops-runner/_work/devops-runner/devops-runner/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .
+                az acr build -f $(Agent.BuildDirectory)/s/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .

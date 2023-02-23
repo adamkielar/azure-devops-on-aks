@@ -14,13 +14,10 @@ stages:
           - checkout: self
             clean: true
 
-          - script: |
-              echo "$(Agent.BuildDirectory)"
-
           - task: AzureCLI@2
             inputs:
               azureSubscription: 'DevopsAKS'
-              scriptType: 'pscore'
+              scriptType: 'bash'
               scriptLocation: inlineScript
               inlineScript: |
                 az acr build -f $(Agent.BuildDirectory)/s/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .

@@ -15,7 +15,7 @@ stages:
             clean: true
 
           - script: |
-              sleep 10000
+              echo $(Agent.BuildDirectory)
 
           - task: AzureCLI@2
             inputs:

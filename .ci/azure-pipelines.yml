@@ -15,6 +15,7 @@ stages:
             clean: true
 
           - task: AzureCLI@2
+            displayName: Build image
             inputs:
               azureSubscription: 'DevopsAKS'
               scriptType: 'bash'
@@ -23,5 +24,15 @@ stages:
                 az acr build -f $(Agent.BuildDirectory)/s/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .
 
           - script: |
-              sed 's|IMAGE|devopsacr14044.azurecr.io/devops-demo|g; s/TAG/$(Build.SourceVersion)/g' $(Agent.BuildDirectory)/s/app.yaml | kubectl apply -f -
+              sed 's|IMAGE|devopsacr14044.azurecr.io/devops-demo|g; s/TAG/$(Build.SourceVersion)/g' $(Agent.BuildDirectory)/s/app.yaml > $(Agent.BuildDirectory)/s/deploy-app.yaml
+            displayName: Update manifest
+
+          - task: Kubernetes@1
             displayName: Deploy application
+            inputs:
+              connectionType: Azure Resource Manager
+              azureSubscriptionEndpoint: 'DevopsAKS'
+              azureResourceGroup: 'devops-runner-rg'
+              kubernetesCluster: 'aks-devops-runner'
+              command: apply
+              arguments: -f $(Agent.BuildDirectory)/s/deploy-app.yaml

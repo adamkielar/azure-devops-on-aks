@@ -21,3 +21,7 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 az acr build -f $(Agent.BuildDirectory)/s/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .
+
+          - script: |
+              sed 's|IMAGE|devopsacr14044.azurecr.io/devops-demo|g; s/TAG/$(Build.SourceVersion)/g' $(Agent.BuildDirectory)/s/app.yaml | kubectl apply -f -
+            displayName: Deploy application

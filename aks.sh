@@ -35,8 +35,6 @@ az aks create \
 --assign-identity $aksIdentityId \
 --assign-kubelet-identity $kubeletIdentityId \
 --enable-managed-identity \
---enable-oidc-issuer \
---enable-workload-identity \
 --enable-aad \
 --aad-admin-group-object-ids $groupId \
 --attach-acr $acrId \

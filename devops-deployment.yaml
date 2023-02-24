@@ -6,18 +6,15 @@ metadata:
   namespace: devops
   labels:
     app: devops-runner
-    azure.workload.identity/use: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: devops-runner
-      azure.workload.identity/use: "true"
   template:
     metadata:
       labels:
         app: devops-runner
-        azure.workload.identity/use: "true"
     spec:
       containers:
       - name: devops-runner

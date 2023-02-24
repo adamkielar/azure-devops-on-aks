@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops-demo-pod
+  namespace: devops
+spec:
+  containers:
+    - image: IMAGE:TAG
+      name: devops-demo-container
+  nodeSelector:
+    kubernetes.io/os: linux

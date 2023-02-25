@@ -6,16 +6,20 @@ metadata:
   namespace: devops
   labels:
     app: devops-runner
+    azure.workload.identity/use: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: devops-runner
+      azure.workload.identity/use: "true"
   template:
     metadata:
       labels:
         app: devops-runner
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: workload-sa
       containers:
       - name: devops-runner
         image: devopsacr14044.azurecr.io/devops-runner:v1.0.0 # Add your ACR respository
@@ -23,6 +27,13 @@ spec:
         - sleep
         args:
         - 99d
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
         volumeMounts:
           - mountPath: "/home/devops"
             name: runner-data

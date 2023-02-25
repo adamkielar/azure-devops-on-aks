@@ -1,11 +1,4 @@
 # devops-storageclass.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: devops
-  labels:
-    name: devops
----
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:

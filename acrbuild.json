@@ -1,0 +1,16 @@
+{
+  "Name": "AcrBuild",
+  "IsCustom": true,
+  "Description": "Can read, push, pull and list builds.",
+  "Actions": [
+    "Microsoft.ContainerRegistry/registries/read",
+    "Microsoft.ContainerRegistry/registries/pull/read",
+    "Microsoft.ContainerRegistry/registries/push/write",
+    "Microsoft.ContainerRegistry/registries/scheduleRun/action",
+    "Microsoft.ContainerRegistry/registries/runs/*",
+    "Microsoft.ContainerRegistry/registries/listBuildSourceUploadUrl/action"
+  ],
+  "AssignableScopes": [
+    "/subscriptions/{YOUR SUBSCRIPTION}"
+  ]
+}

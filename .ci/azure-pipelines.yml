@@ -15,12 +15,14 @@ stages:
             clean: true
 
           - script: |
+              set -euo pipefail
               az login --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID --federated-token $(cat $AZURE_FEDERATED_TOKEN_FILE)
               az acr build -f $(Agent.BuildDirectory)/s/Dockerfile -t devopsacr14044.azurecr.io/devops-demo:$(Build.SourceVersion) -r devopsacr14044 .
             displayName: Log in and push image to ACR
 
           - script: |
+              set -euo pipefail
               az aks get-credentials --resource-group devops-runner-rg --name aks-devops-runner --overwrite-existing
               kubelogin convert-kubeconfig -l workloadidentity
-              sed 's|IMAGE|devopsacr14044.azurecr.io/devops-demo|g; s/TAG/$(Build.SourceVersion)/g' $(Agent.BuildDirectory)/s/app.yaml > $(Agent.BuildDirectory)/s/deploy-app.yaml
+              sed 's|IMAGE|devopsacr14044.azurecr.io/devops-demo|g; s/TAG/$(Build.SourceVersion)/g' $(Agent.BuildDirectory)/s/app.yaml | kubectl apply -f -
             displayName: Get AKS credentials and deploy app
